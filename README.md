@@ -10,3 +10,5 @@ install.packages(c('tidyverse','rnoaa','lubridate','rdrop2','patchwork'))
 Running `tar_make()` will produce: 
 
 ![temperature_plot](temperature_plot.jpeg)
+
+![snowfall_plot](snowfall_plot.jpeg)

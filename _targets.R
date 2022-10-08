@@ -4,6 +4,7 @@ options(tidyverse.quiet = TRUE)
 tar_option_set(packages = c('tidyverse','rnoaa','lubridate','rdrop2','patchwork'))
 
 source("src/noaa_data.R")
+source("src/snowfall_plot.R")
 source("src/temperature_plot.R")
 
 list(
@@ -24,5 +25,13 @@ list(
     combine_plots(plot_left=temperature.plot,
                   plot_right=legend.plot,
                   'temperature_plot.jpeg')
+  ),
+  tar_target(
+    snowfall.plot,
+    snowfall_plot(noaa.df)
+  ),
+  tar_target(
+    snowfall.output,
+    output_snow_plot('snowfall_plot.jpeg')
   )
 )
