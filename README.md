@@ -1,4 +1,4 @@
-## Recreating the NOAA temperature and snowfall plots
+## Recreating NOAA temperature and snowfall plots
   
 This repository uses the [`targets` package](https://docs.ropensci.org/targets/) to build the plots. Run `tar_make()` to execute `_targets.R` .  
 
