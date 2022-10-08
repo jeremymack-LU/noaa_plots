@@ -1,9 +1,10 @@
 library(targets)
 
 options(tidyverse.quiet = TRUE)
-tar_option_set(packages = c('tidyverse','rnoaa','lubridate','rdrop2','patchwork'))
+tar_option_set(packages = c('tidyverse','rnoaa','lubridate','rdrop2','patchwork','ggrepel'))
 
 source("src/noaa_data.R")
+source("src/noaa_plot.R")
 source("src/snowfall_plot.R")
 source("src/temperature_plot.R")
 
@@ -33,5 +34,13 @@ list(
   tar_target(
     snowfall.output,
     output_snow_plot('snowfall_plot.jpeg')
+  ),
+  tar_target(
+    noaa.plot,
+    noaa_plot(noaa.df)
+  ),
+  tar_target(
+    noaa.output,
+    output_noaa_plot('noaa_plot.jpeg')
   )
 )

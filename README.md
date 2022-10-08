@@ -7,7 +7,9 @@ Install all packages needed to run:
 install.packages(c('tidyverse','rnoaa','lubridate','rdrop2','patchwork'))
 ```
 
-Running `tar_make()` will produce: 
+Running `tar_make()` will produce:
+
+![noaa_plot](noaa_plot.jpeg)
 
 ![temperature_plot](temperature_plot.jpeg)
 
