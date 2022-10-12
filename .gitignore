@@ -6,3 +6,4 @@
 _targets/
 *.Rproj
 Rplots.pdf
+drop.RDS

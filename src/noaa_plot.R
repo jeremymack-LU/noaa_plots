@@ -207,3 +207,12 @@ output_noaa_plot <- function(file_out){
          dpi=600)
 }
 
+# Update data on Dropbox --------------------------------------------------
+noaa_drop <- function(){
+  # Authenticate dropbox with stored RDS token
+  drop_auth(rdstoken='drop.RDS')
+  
+  # Write updated data to dropbox
+  drop_upload('noaa_plot.png', path='/r/projects/climate/output')
+}
+

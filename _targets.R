@@ -1,4 +1,5 @@
 library(targets)
+library(rnoaa)
 
 options(tidyverse.quiet = TRUE)
 tar_option_set(packages = c('tidyverse','rnoaa','lubridate','rdrop2','patchwork','ggrepel'))
@@ -7,6 +8,10 @@ source("src/noaa_data.R")
 source("src/noaa_plot.R")
 source("src/snowfall_plot.R")
 source("src/temperature_plot.R")
+source("src/dropbox.R")
+
+tar_delete(noaa.df)
+meteo_clear_cache(force = TRUE)
 
 list(
   tar_target(
@@ -15,32 +20,48 @@ list(
     ),
   tar_target(
     temperature.plot,
-    temperature_plot(noaa.df)
+    temperature_plot(noaa.df),
+    format = 'rds'
   ),
   tar_target(
-    legend.plot,
-    legend_plot()
+    legend.plot, {
+      temperature.plot
+      legend_plot()
+    }
   ),
   tar_target(
     combined.plot,
-    combine_plots(plot_left=temperature.plot,
-                  plot_right=legend.plot,
-                  'temperature_plot.jpeg')
+    combine_plots(temperature.plot,legend.plot,'temperature.jpeg')
   ),
   tar_target(
     snowfall.plot,
-    snowfall_plot(noaa.df)
+    snowfall_plot(noaa.df),
+    format = 'rds'
   ),
   tar_target(
-    snowfall.output,
-    output_snow_plot('snowfall_plot.jpeg')
+    snowfall.output,{
+      snowfall.plot
+      output_snow_plot('snowfall.jpeg')
+    }
   ),
   tar_target(
     noaa.plot,
-    noaa_plot(noaa.df)
+    noaa_plot(noaa.df),
+    format='rds'
   ),
   tar_target(
-    noaa.output,
-    output_noaa_plot('noaa_plot.jpeg')
+    noaa.output,{
+      noaa.plot
+      output_noaa_plot('noaa_plot.png')
+    }
+  ),
+  tar_target(
+    dropbox.transfer,{
+      combined.plot
+      snowfall.output
+      noaa.output
+      transfer_plots('noaa_plot.png','snowfall.jpeg','temperature.jpeg')
+    }
   )
 )
+

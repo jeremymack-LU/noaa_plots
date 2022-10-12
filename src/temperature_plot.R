@@ -150,3 +150,12 @@ combine_plots <- function(plot_left, plot_right, file_out){
          units="in",
          dpi=600)
 }
+
+# Update data on Dropbox --------------------------------------------------
+temperature_drop <- function(file){
+  # Authenticate dropbox with stored RDS token
+  drop_auth(rdstoken='drop.RDS')
+  
+  # Write updated data to dropbox
+  drop_upload('temperature.jpeg', path='/r/projects/climate/output')
+}

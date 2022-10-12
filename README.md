@@ -11,6 +11,6 @@ Running `tar_make()` will produce:
 
 ![noaa_plot](noaa_plot.jpeg)
 
-![temperature_plot](temperature_plot.jpeg)
+![temperature_plot](temperature.jpeg)
 
-![snowfall_plot](snowfall_plot.jpeg)
+![snowfall_plot](snowfall.jpeg)
