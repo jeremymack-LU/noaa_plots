@@ -150,7 +150,7 @@ snowfall_plot <- function(data) {
                 y=snow_in,
                 label=paste0(per_avg,'% of average')),
               size=7*0.36,
-              hjust=0,
+              hjust=1,
               nudge_y=3) +
     labs(x='Date',
          y='Total snow (inches)',
