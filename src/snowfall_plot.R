@@ -5,8 +5,8 @@ snowfall_plot <- function(data) {
   wy.months <- c(10:12)
   
   wy <- tibble(
-    xdate = seq.Date(as.Date('2021-10-01'),
-                     as.Date('2022-04-30'),
+    xdate = seq.Date(as.Date('2022-10-01'),
+                     as.Date('2023-04-30'),
                      'day'),
     dowy = row_number(xdate)
   )
@@ -29,7 +29,7 @@ snowfall_plot <- function(data) {
   
   snow.current <- snow %>%
     filter(wy==2022) %>%
-    mutate(period='Current season (2021-22)') %>%
+    mutate(period='Current season (2022-23)') %>%
     select(dowy,snow_in,period) %>%
     left_join(wy,by='dowy') %>%
     mutate(snow_in=round(snow_in,1)) %>%
@@ -82,8 +82,8 @@ snowfall_plot <- function(data) {
     mutate(percent_avg=round((current_in/avg_in)*100,1))
   
   #pts <- snow.df2 %>% slice_tail(n=1)
-  #pts <- snow.df2 %>% filter(xdate==Sys.Date()-1)
-  pts <- snow.df2 %>% filter(xdate==as.Date('2022-05-01')-1)
+  pts <- snow.df2 %>% filter(xdate==Sys.Date()-1)
+  #pts <- snow.df2 %>% filter(xdate==as.Date('2023-05-01')-1)
   
   
   pts <- pts %>% 
@@ -98,8 +98,16 @@ snowfall_plot <- function(data) {
       measure == 'max_in' ~ 'High season (1995-96)',
       measure == 'min_in' ~ 'Low season (2019-20)',
       measure == 'avg_in' ~ 'Average season',
-      TRUE ~ 'Current season (2021-22)'
-    ))
+      TRUE ~ 'Current season (2022-23)'
+    )) %>%
+    mutate(
+      snow_in=case_when(
+        is.na(snow_in) ~ 0,
+        TRUE ~ snow_in),
+      per_avg=case_when(
+        is.na(per_avg) ~ 0,
+        TRUE ~ snow_in
+      ))
   
   p.snow <- ggplot() +
     geom_hline(yintercept=c(20,40,60,80),size=0.25,alpha=0.2) +
@@ -134,27 +142,28 @@ snowfall_plot <- function(data) {
                                levels=c('High season (1995-96)',
                                         'Average season',
                                         'Low season (2019-20)',
-                                        'Current season (2021-22)')))) +
+                                        'Current season (2022-23)')))) +
     geom_point(data=pts,aes(xdate,snow_in,color=measure),size=2) +
-    geom_text(data=pts[pts$measure=='Current season (2021-22)',],
-              aes(x=as.Date("2022-04-05"),
-                  y=snow_in,
-                  label=paste0(per_avg,'% of average')),
+    geom_text(data=pts[pts$measure=='Current season (2022-23)',],
+              aes(#x=as.Date("2023-04-05"),
+                x=xdate,
+                y=snow_in,
+                label=paste0(per_avg,'% of average')),
               size=7*0.36,
               hjust=0,
               nudge_y=3) +
     labs(x='Date',
          y='Total snow (inches)',
          title='Lehigh Valley Seasonal Snowfall',
-         subtitle="How the Lehigh Valley's cumulative 2021-22 seasonal snowfall, measured at LVIA, compares to the historical mean, record high,\nand record low years since consistent records began in 1948.") +
+         subtitle=paste("How the Lehigh Valley's cumulative 2022-23 seasonal snowfall, measured at LVIA, compares to the historical mean,\nrecord high, and record low years since consistent records began in 1948. Updated on ", format(Sys.Date(), "%B %d, %Y."))) +
     scale_x_date(date_labels="%b %d",
                  date_breaks='1 month',
                  expand=c(0.05,0.05)) +
-    scale_color_manual(values=c('Current season (2021-22)'='black',
+    scale_color_manual(values=c('Current season (2022-23)'='black',
                                 'High season (1995-96)'='#1c4e80',
                                 'Average season'='#737475',
                                 'Low season (2019-20)'='#5c9cdb')) +
-    scale_size_manual(values=c('Current season (2021-22)'=1,
+    scale_size_manual(values=c('Current season (2022-23)'=1,
                                'High season (1995-96)'=0.25,
                                'Average season'=0.25,
                                'Low season (2019-20)'=0.25)) +

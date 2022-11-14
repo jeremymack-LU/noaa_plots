@@ -81,7 +81,7 @@ temperature_plot <- function(data) {
     labs(x="Month",
          y="Temperature (°F)",
          title='Lehigh Valley Monthly Temperature',
-         subtitle="How the Lehigh Valley's mean monthly temperature, measured at LVIA, compares to the\nhistorical mean, record high, and record low years since consistent records began in 1948.") +
+         subtitle=paste("How the Lehigh Valley's mean monthly temperature, measured at LVIA, compares to the historical mean,\nrecord high, and record low years since consistent records began in 1948. Updated on ", format(Sys.Date(), "%B %d, %Y."))) +
     theme(panel.background=element_blank(),
           panel.grid=element_blank(),
           plot.title=element_text(size=9, hjust=0, color="#4e4d47", 

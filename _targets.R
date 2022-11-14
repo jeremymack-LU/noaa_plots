@@ -11,6 +11,7 @@ source("src/temperature_plot.R")
 source("src/dropbox.R")
 
 tar_delete(noaa.df)
+tar_delete(dropbox.transfer)
 meteo_clear_cache(force = TRUE)
 
 list(
